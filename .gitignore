@@ -1,0 +1,10 @@
+.next/
+node_modules/
+
+/Watches/
+/HeadPhones/
+
+*.log
+*.tsbuildinfo
+.env*
+!.env.example
