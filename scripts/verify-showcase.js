@@ -10,7 +10,7 @@
  * 3. Floating capsule controls: circular play/pause, circular reset button, glowing cyan scrubber,
  *    and monospace "001 / 118" frame counter.
  * 4. Responsive scroll-to-frame synchronization across 118-frame sequences.
- * 5. Route availability and default exports for / and both product pages.
+ * 5. Route availability and default exports for the home, overview, and product pages.
  * 6. Responsive layout rules across mobile (375px), tablet (768px), and desktop.
  */
 
@@ -376,6 +376,7 @@ console.log("\n▶ TEST SUITE 5: Route Availability & Page Component Exports");
 
 const routes = [
   { path: "app/page.tsx", route: "/" },
+  { path: "app/overview/page.tsx", route: "/overview" },
   { path: "app/products/halo-studio/page.tsx", route: "/products/halo-studio" },
   { path: "app/products/pulse-one/page.tsx", route: "/products/pulse-one" },
 ];

@@ -20,6 +20,7 @@ export function GlobalNavbar({
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const isOverviewPage = pathname === "/overview";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 24);
@@ -45,7 +46,7 @@ export function GlobalNavbar({
   };
 
   const navLinks = [
-    { name: "Overview", href: "/" },
+    { name: "Overview", href: "/overview" },
     { name: "Halo Studio", href: "/products/halo-studio" },
     { name: "Pulse One", href: "/products/pulse-one" },
   ];
@@ -74,13 +75,15 @@ export function GlobalNavbar({
             </span>
           </Link>
 
-          <div className="hidden min-w-0 flex-1 justify-center px-2 md:flex">
-            <ProductToggleSwitch
-              size="sm"
-              activeMode={computedMode}
-              onToggle={handleSwitchMode}
-            />
-          </div>
+          {!isOverviewPage && (
+            <div className="hidden min-w-0 flex-1 justify-center px-2 md:flex">
+              <ProductToggleSwitch
+                size="sm"
+                activeMode={computedMode}
+                onToggle={handleSwitchMode}
+              />
+            </div>
+          )}
 
           <div className="flex shrink-0 items-center gap-2">
             <button
@@ -101,16 +104,18 @@ export function GlobalNavbar({
             id="global-navigation-menu"
             className="absolute right-0 top-full mt-2 w-[min(22rem,calc(100vw-1.5rem))] rounded-2xl border border-white/10 bg-[#080a0e]/95 p-3 shadow-[0_20px_60px_rgba(0,0,0,0.7)] backdrop-blur-2xl"
           >
-            <div className="mb-3 flex justify-center border-b border-white/10 pb-3 md:hidden">
-              <ProductToggleSwitch
-                size="sm"
-                activeMode={computedMode}
-                onToggle={(mode) => {
-                  handleSwitchMode(mode);
-                  setMenuOpen(false);
-                }}
-              />
-            </div>
+            {!isOverviewPage && (
+              <div className="mb-3 flex justify-center border-b border-white/10 pb-3 md:hidden">
+                <ProductToggleSwitch
+                  size="sm"
+                  activeMode={computedMode}
+                  onToggle={(mode) => {
+                    handleSwitchMode(mode);
+                    setMenuOpen(false);
+                  }}
+                />
+              </div>
+            )}
             <nav aria-label="Main navigation" className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 <Link
