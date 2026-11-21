@@ -54,7 +54,8 @@ export function ProductSequenceCanvas({
   const getFramePath = useCallback(
     (index: number) => {
       const num = String(index + 1).padStart(3, "0");
-      return `/sequences/${type}/ezgif-frame-${num}.jpg`;
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+      return `${basePath}/sequences/${type}/ezgif-frame-${num}.jpg`;
     },
     [type]
   );

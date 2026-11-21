@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SonyAppleNavBar } from "@/components/navigation/SonyAppleNavBar";
 import { ProductMode } from "@/components/navigation/ProductToggleSwitch";
 import { SonyInteractiveScroll } from "@/components/sony/SonyInteractiveScroll";
@@ -13,11 +14,12 @@ import { ArrowUpRight, Watch } from "lucide-react";
 
 export default function HaloStudioPage() {
   const [activeMode, setActiveMode] = useState<ProductMode>("headphones");
+  const router = useRouter();
 
   const handleToggleMode = (mode: ProductMode) => {
     setActiveMode(mode);
     if (mode === "watch") {
-      window.location.href = "/products/pulse-one";
+      router.push("/products/pulse-one");
     }
   };
 

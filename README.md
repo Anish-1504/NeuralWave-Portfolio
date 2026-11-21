@@ -41,3 +41,15 @@ http://localhost:3000
 - `npm run dev`: Start Next.js development server
 - `npm run build`: Build production bundle
 - `npm start`: Run production server
+
+## GitHub Pages Deployment
+
+The workflow in `.github/workflows/deploy.yml` runs the showcase verification, type checks, and static build, then deploys the site to GitHub Pages when changes are pushed to `main`. You can also start a deployment from the **Actions** tab.
+
+The published site is available at:
+
+```
+https://anish-1504.github.io/NeuralWave-Portfolio/
+```
+
+In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions** if it is not already selected.
