@@ -387,12 +387,24 @@ routes.forEach(({ path: relPath, route }) => {
   if (fs.existsSync(fullPath)) {
     const content = fs.readFileSync(fullPath, "utf8");
     assert(
-      content.includes("export default function") || content.includes("export default"),
+      content.includes("export default function") ||
+        content.includes("export default") ||
+        content.includes("export { default"),
       `Route ${route} has default export component`,
       `Missing default export in ${relPath}`
     );
   }
 });
+
+const homeSrc = fs.readFileSync(path.join(ROOT_DIR, "app", "page.tsx"), "utf8");
+const overviewSrc = fs.readFileSync(path.join(ROOT_DIR, "app", "overview", "page.tsx"), "utf8");
+assert(
+  homeSrc.includes('export { default, metadata } from "./overview/page";') &&
+    overviewSrc.includes('href: "/products/halo-studio"') &&
+    overviewSrc.includes('href: "/products/pulse-one"'),
+  "The initial home route displays the overview and product pages are linked from it",
+  "The home route must reuse the overview, with product routes available through overview links"
+);
 
 // ------------------------------------------------------------------------------
 // TEST SUITE 6: Responsive Layout Alignment Rules
@@ -461,14 +473,12 @@ assert(fs.existsSync(heroPath) && fs.existsSync(switchPath), "LandingHero and Pr
 if (fs.existsSync(heroPath) && fs.existsSync(switchPath)) {
   const heroSrc = fs.readFileSync(heroPath, "utf8");
   const switchSrc = fs.readFileSync(switchPath, "utf8");
-  const homeSrc = fs.readFileSync(path.join(ROOT_DIR, "app", "page.tsx"), "utf8");
-
   assert(
     !heroSrc.includes("<ProductToggleSwitch") &&
-      homeSrc.includes("<GlobalNavbar activeMode={activeMode} onToggleMode={setActiveMode} />") &&
+      overviewSrc.includes("<GlobalNavbar />") &&
       heroSrc.includes("<ProductCheckpointNav") &&
       switchSrc.includes("max-w-full"),
-    "LandingHero keeps product selection in the header and uses the bottom checkpoint dock",
+    "Product pages keep product selection in the header and use the bottom checkpoint dock",
     "Product selection is duplicated or the bottom checkpoint dock is missing"
   );
   assert(

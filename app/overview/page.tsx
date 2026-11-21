@@ -75,7 +75,7 @@ export default function OverviewPage() {
               <ArrowUpRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/"
+              href="#experiences"
               className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-sm font-medium text-white/75 transition-colors hover:border-white/30 hover:text-white"
             >
               Browse the collection
@@ -99,7 +99,7 @@ export default function OverviewPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+      <section id="experiences" className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
         <div className="mb-10 max-w-2xl">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-cyan-300/80">
             Two ways to experience it
