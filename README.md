@@ -1,4 +1,4 @@
-# KINETIC LABS — Ultra-Premium 3D Interactive Technology Showcase
+# NeuralWave — Ultra-Premium 3D Interactive Technology Showcase
 
 An Awwwards-level interactive digital product showcase website featuring the **Sony WH-1000XM6** wireless noise-cancelling headphones and the **Apple Watch Ultra** smartwatch.
 
