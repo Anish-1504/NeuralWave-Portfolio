@@ -296,9 +296,10 @@ if (fs.existsSync(sonyScrollPath)) {
     "Scroll-to-frame or checkpoint navigation is missing from SonyInteractiveScroll"
   );
   assert(
-    src.includes("className={`hidden absolute"),
-    "Headphone narrative copy stays out of the product viewport",
-    "Narrative copy is still displayed over the headphone sequence"
+    src.includes("<ProductPartLabel") &&
+      !/\bisBeat[1-5]\b/.test(src),
+    "Headphone sequence uses part callouts without narrative overlays",
+    "Part callouts are missing or narrative overlays are present in the headphone sequence"
   );
 }
 
@@ -313,9 +314,10 @@ if (fs.existsSync(watchScrollPath)) {
     "Scroll-to-frame or checkpoint navigation is missing from WatchInteractiveScroll"
   );
   assert(
-    src.includes("className={`hidden absolute"),
-    "Watch narrative copy stays out of the product viewport",
-    "Narrative copy is still displayed over the watch sequence"
+    src.includes("<ProductPartLabel") &&
+      !/\bisBeat[1-5]\b/.test(src),
+    "Watch sequence uses part callouts without narrative overlays",
+    "Part callouts are missing or narrative overlays are present in the watch sequence"
   );
 }
 
@@ -323,34 +325,38 @@ const partLabelPath = path.join(ROOT_DIR, "components", "canvas", "ProductPartLa
 assert(fs.existsSync(partLabelPath), "ProductPartLabel.tsx exists");
 if (fs.existsSync(partLabelPath)) {
   const partLabelSrc = fs.readFileSync(partLabelPath, "utf8");
-  const partLabels = [...partLabelSrc.matchAll(/\["[^"]+",\s*"([^"]+)"\]/g)].map((match) => match[1]);
+  const headphonesParts = partLabelSrc.match(/headphones:\s*\[([\s\S]*?)\n  \],\s*watches:/)?.[1] || "";
+  const watchesParts = partLabelSrc.match(/watches:\s*\[([\s\S]*?)\n  \],\s*\};/)?.[1] || "";
+  const countParts = (parts) => (parts.match(/\bcode:/g) || []).length;
 
   assert(
-    partLabels.length === 20 &&
-      partLabels.every((description) => description.trim().split(/\s+/).length === 2),
-    "Both product sequences provide 10 part labels with two-word descriptions",
-    "Part labels are missing or a description is not exactly two words"
+    countParts(headphonesParts) === 10 &&
+      countParts(watchesParts) === 10 &&
+      [headphonesParts, watchesParts].every(
+        (parts) =>
+          (parts.match(/\bname:/g) || []).length === 10 &&
+          (parts.match(/\bdescription:/g) || []).length === 10 &&
+          (parts.match(/\btarget:/g) || []).length === 10
+      ),
+    "Both product sequences provide 10 detailed part labels with target positions",
+    "Part records are missing names, descriptions, or target positions"
   );
 
   assert(
-    partLabelSrc.includes('aria-live="polite"') &&
       partLabelSrc.includes("pointer-events-none") &&
-      partLabelSrc.includes("PART_TARGETS") &&
-      partLabelSrc.includes("targetStyle") &&
-      partLabelSrc.includes("font-sans text-sm") &&
-      partLabelSrc.includes("sm:text-base") &&
-      partLabelSrc.includes("--label-top") &&
-      partLabelSrc.includes("import { MapPin } from \"lucide-react\"") &&
-      partLabelSrc.includes("<MapPin") &&
-      !partLabelSrc.includes("rotate-45") &&
-      partLabelSrc.includes("w-[min(11rem,44vw)]") &&
+      partLabelSrc.includes("SLIDE_PARTS[type]") &&
+      partLabelSrc.includes("left: `${targetX}%`") &&
+      partLabelSrc.includes("top: `${targetY}%`") &&
+      partLabelSrc.includes("hidden sm:block") &&
+      partLabelSrc.includes("sm:hidden") &&
+      partLabelSrc.includes("rounded-2xl") &&
       !partLabelSrc.includes("<svg") &&
       !partLabelSrc.includes("markerEnd=") &&
       ["hero/LandingHero.tsx", "sony/SonyInteractiveScroll.tsx", "watch/WatchInteractiveScroll.tsx"].every((file) =>
         fs.readFileSync(path.join(ROOT_DIR, "components", file), "utf8").includes("ProductPartLabel")
       ),
-    "Both product labels use readable nearby callouts and one map-pin pointer without connector lines",
-    "Readable callout styling, single-pointer placement, or a product sequence integration is missing"
+    "Part callouts are responsively positioned without connector lines on every sequence",
+    "Responsive callout styling, target positioning, or a product sequence integration is missing"
   );
 }
 
@@ -359,12 +365,12 @@ assert(fs.existsSync(checkpointNavPath), "ProductCheckpointNav.tsx exists");
 if (fs.existsSync(checkpointNavPath)) {
   const checkpointNavSrc = fs.readFileSync(checkpointNavPath, "utf8");
   assert(
-    checkpointNavSrc.includes("bottom-16 sm:bottom-16") &&
+    checkpointNavSrc.includes("absolute inset-x-0 bottom-6 sm:bottom-8") &&
       checkpointNavSrc.includes("onSelect(checkpoint.range[0] + 0.01)") &&
       ["hero/LandingHero.tsx", "sony/SonyInteractiveScroll.tsx", "watch/WatchInteractiveScroll.tsx"].every((file) =>
         fs.readFileSync(path.join(ROOT_DIR, "components", file), "utf8").includes("ProductCheckpointNav")
       ),
-    "The redesigned checkpoint dock sits at the bottom and stays linked to scrolling on all sequences",
+    "The checkpoint dock stays at the bottom and linked to scrolling on all sequences",
     "Checkpoint navigation is not docked or connected to all product sequences"
   );
 }
