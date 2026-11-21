@@ -20,7 +20,7 @@ export function GlobalNavbar({
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const isOverviewPage = pathname === "/overview";
+  const isOverviewPage = pathname === "/" || pathname === "/overview";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 24);

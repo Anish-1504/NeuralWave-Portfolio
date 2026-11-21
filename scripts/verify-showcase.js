@@ -464,6 +464,11 @@ if (fs.existsSync(globalNavPath)) {
     "Floating header has the new brand treatment, device switch, and accessible navigation menu",
     "The redesigned global header is missing required controls or styling"
   );
+  assert(
+    src.includes('const isOverviewPage = pathname === "/" || pathname === "/overview";'),
+    "Product switch is hidden on both overview routes",
+    "The home route is not recognized as an overview page"
+  );
 }
 
 // 3. Hero switch mobile responsiveness
