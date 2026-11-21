@@ -42,7 +42,7 @@ export function ProductCheckpointNav({
   return (
     <nav
       aria-label="Product disassembly checkpoints"
-      className="absolute inset-x-0 bottom-16 sm:bottom-16 z-30 px-3 sm:px-5"
+      className="absolute inset-x-0 bottom-6 sm:bottom-8 z-30 px-3 sm:px-5"
     >
       <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-white/[0.12] bg-[#080a0e]/90 shadow-[0_16px_50px_rgba(0,0,0,0.55)] backdrop-blur-2xl">
         <div className="h-px bg-white/10">

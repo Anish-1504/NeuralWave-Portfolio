@@ -1,16 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Compass, Clock, Flame, Moon, Palette, Sliders } from "lucide-react";
-
-type WatchFace = "modular" | "wayfinder" | "activity" | "night";
-type CaseFinish = "natural" | "graphite" | "white";
-type BandOption = "ocean" | "trail" | "alpine";
+import { Compass, Clock, Flame, Moon, Sliders } from "lucide-react";
+import { ThreeWatchViewer, WatchFaceType, CaseFinishType, BandType } from "./ThreeWatchViewer";
 
 export function WatchFaceStudio() {
-  const [face, setFace] = useState<WatchFace>("modular");
-  const [finish, setFinish] = useState<CaseFinish>("natural");
-  const [band, setBand] = useState<BandOption>("ocean");
+  const [face, setFace] = useState<WatchFaceType>("modular");
+  const [finish, setFinish] = useState<CaseFinishType>("natural");
+  const [band, setBand] = useState<BandType>("ocean");
   const [currentTime, setCurrentTime] = useState({ hours: "09", minutes: "41", seconds: "38" });
 
   useEffect(() => {
@@ -156,110 +153,33 @@ export function WatchFaceStudio() {
             </div>
           </div>
 
-          {/* Right Live Watch Simulator Preview */}
-          <div className="lg:col-span-7 flex flex-col items-center justify-center">
-            <div className="relative w-80 sm:w-96 p-8 rounded-[48px] bg-gradient-to-b from-[#18181c] to-[#0c0c0e] border-4 border-stone-600/80 shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_50px_rgba(41,151,255,0.15)] flex flex-col items-center">
-              {/* Digital Crown & Button Mock (Right Edge) */}
-              <div className="absolute -right-3 top-24 w-3 h-14 bg-gradient-to-b from-stone-400 to-stone-600 rounded-r-md border-l border-black shadow-md" />
-              <div className="absolute -right-2.5 top-44 w-2.5 h-10 bg-stone-500 rounded-r-sm" />
-
-              {/* Action Button Mock (Left Edge) */}
-              <div className="absolute -left-3 top-32 w-3 h-12 bg-amber-600 rounded-l-md border-r border-black shadow-md" />
-
-              {/* OLED Screen Area */}
-              <div
-                className={`w-full aspect-[410/502] rounded-[36px] p-6 flex flex-col justify-between overflow-hidden relative shadow-inner border border-white/10 transition-colors duration-500 ${
-                  face === "night" ? "bg-black text-red-500" : "bg-black text-white"
-                }`}
-              >
-                {/* Watch Face UI Variant 1: Modular Grid */}
-                {face === "modular" && (
-                  <div className="w-full h-full flex flex-col justify-between">
-                    {/* Top Complications */}
-                    <div className="flex items-center justify-between text-xs font-mono font-bold">
-                      <span className="text-amber-400">72° SUN</span>
-                      <span className="text-sky-400">BATT 88%</span>
-                      <span className="text-pink-500">76 BPM</span>
-                    </div>
-
-                    {/* Main Digital Time Display */}
-                    <div className="text-center my-auto">
-                      <div className="text-6xl font-black tracking-tight font-sans text-white">
-                        {currentTime.hours}:{currentTime.minutes}
-                      </div>
-                      <div className="text-xs font-mono text-cyan-400 mt-1 uppercase tracking-widest">
-                        SEC {currentTime.seconds} • ELEV 2,450 FT
-                      </div>
-                    </div>
-
-                    {/* Bottom Activity Ring / Graph Summary */}
-                    <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Flame className="w-4 h-4 text-pink-500" />
-                        <span className="text-xs font-semibold">680 / 500 CAL</span>
-                      </div>
-                      <span className="text-xs font-mono text-emerald-400">GOAL MET</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Watch Face UI Variant 2: Wayfinder Compass */}
-                {face === "wayfinder" && (
-                  <div className="w-full h-full flex flex-col items-center justify-between relative">
-                    <div className="text-xs font-mono text-amber-500 font-bold">
-                      37°46&apos;29&quot; N 122°25&apos;10&quot; W
-                    </div>
-
-                    {/* Rotating Compass Ring Mock */}
-                    <div className="relative w-44 h-44 rounded-full border-2 border-dashed border-sky-400/60 flex items-center justify-center animate-spin-slow">
-                      <div className="absolute top-1 text-[10px] font-bold text-amber-500">N</div>
-                      <div className="absolute bottom-1 text-[10px] font-bold text-white/50">S</div>
-                      <div className="absolute left-1 text-[10px] font-bold text-white/50">W</div>
-                      <div className="absolute right-1 text-[10px] font-bold text-white/50">E</div>
-                      <div className="w-1.5 h-16 bg-gradient-to-t from-transparent via-amber-500 to-amber-400 rounded-full" />
-                    </div>
-
-                    <div className="text-2xl font-bold font-mono">
-                      {currentTime.hours}:{currentTime.minutes}
-                    </div>
-                  </div>
-                )}
-
-                {/* Watch Face UI Variant 3: Activity Analog */}
-                {face === "activity" && (
-                  <div className="w-full h-full flex flex-col items-center justify-center relative">
-                    {/* Simulated Concentric Circles */}
-                    <div className="relative w-44 h-44 flex items-center justify-center">
-                      <div className="absolute inset-0 rounded-full border-4 border-pink-500 shadow-[0_0_15px_#ec4899]" />
-                      <div className="absolute inset-4 rounded-full border-4 border-emerald-400 shadow-[0_0_15px_#34d399]" />
-                      <div className="absolute inset-8 rounded-full border-4 border-sky-400 shadow-[0_0_15px_#38bdf8]" />
-                      <div className="text-center z-10">
-                        <div className="text-xl font-bold">{currentTime.hours}:{currentTime.minutes}</div>
-                        <div className="text-[10px] font-mono text-white/50">MOVE • EXERCISE</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Watch Face UI Variant 4: Night Mode (Red) */}
-                {face === "night" && (
-                  <div className="w-full h-full flex flex-col justify-between items-center text-red-500">
-                    <div className="text-xs font-mono font-bold tracking-widest uppercase">
-                      TACTICAL NIGHT VISION
-                    </div>
-                    <div className="text-6xl font-black tracking-tight font-sans">
-                      {currentTime.hours}:{currentTime.minutes}
-                    </div>
-                    <div className="text-xs font-mono tracking-widest">
-                      LAT 34.0522° • 0 NIT RETINAL
-                    </div>
-                  </div>
-                )}
+          {/* Right Live 3D Interactive Watch Simulator Preview */}
+          <div className="lg:col-span-7 flex flex-col items-center justify-center relative py-6">
+            <div className="relative w-full max-w-[520px] p-6 rounded-[48px] bg-gradient-to-b from-[#141418] via-[#0d0d10] to-[#070709] border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_80px_rgba(41,151,255,0.18)] flex flex-col items-center overflow-hidden">
+              {/* Corner Telemetry Accents */}
+              <div className="absolute top-5 left-7 flex items-center gap-2 text-[10px] font-mono text-white/40 uppercase tracking-widest pointer-events-none z-10">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                <span>3D WEBGL ENGINE ACTIVE</span>
               </div>
+              <div className="absolute top-5 right-7 text-[10px] font-mono text-cyan-400 uppercase tracking-widest pointer-events-none z-10">
+                {finish.toUpperCase()} • {band.toUpperCase()}
+              </div>
+
+              {/* Dynamic 3D Three.js Smartwatch with Interactive Orbit & Zoom */}
+              <ThreeWatchViewer
+                face={face}
+                finish={finish}
+                band={band}
+                currentTime={currentTime}
+              />
             </div>
 
-            <div className="mt-4 text-xs font-mono text-white/40 tracking-wider">
-              UP TO 2,000 NITS • ALWAYS-ON OLED
+            <div className="mt-5 flex items-center gap-4 text-xs font-mono text-white/50 tracking-wider">
+              <span>ALWAYS-ON RETINA OLED</span>
+              <span>•</span>
+              <span className="text-cyan-400">UP TO 2,000 NITS</span>
+              <span>•</span>
+              <span className="uppercase">{finish} TITANIUM</span>
             </div>
           </div>
         </div>

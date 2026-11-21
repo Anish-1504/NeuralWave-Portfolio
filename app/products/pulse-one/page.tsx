@@ -30,7 +30,7 @@ export default function PulseOnePage() {
       {/* Global Navbar with Active Watch Mode & Working Toggle Switch */}
       <GlobalNavbar activeMode="watch" onToggleMode={handleToggle} />
 
-      {/* Immediate Full-Screen Pinned 10-Stage Disassembly Experience */}
+      {/* 10-Stage Disassembly Experience */}
       <WatchInteractiveScroll />
 
       {/* Scrollable stories for health, recovery, training, and safety */}

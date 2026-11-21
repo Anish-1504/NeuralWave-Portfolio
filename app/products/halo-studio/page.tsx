@@ -27,7 +27,7 @@ export default function HaloStudioPage() {
     <main className="min-h-screen bg-[#050505] text-white selection:bg-cyan-500 selection:text-black overflow-x-clip">
       <SonyAppleNavBar activeMode={activeMode} onToggleMode={handleToggleMode} />
 
-      {/* Immediate Full-Screen Pinned 10-Stage Disassembly Experience */}
+      {/* 10-Stage Disassembly Experience */}
       <SonyInteractiveScroll />
 
       {/* Technology & Acoustic Driver Breakdown Section */}

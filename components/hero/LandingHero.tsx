@@ -128,10 +128,9 @@ export function LandingHero({ activeMode }: LandingHeroProps) {
           activeCheckpoint={activeCheckpoint}
           onSelect={scrollToBeat}
         />
-        <ProductPartLabel
-          type={isHeadphones ? "headphones" : "watches"}
-          checkpoint={activeCheckpoint}
-        />
+
+        {/* Dynamic Slide Marking Point & Short Description */}
+        <ProductPartLabel type={isHeadphones ? "headphones" : "watches"} checkpoint={activeCheckpoint} />
 
         {/* ========================================================================= */}
         {/* NARRATIVE BEAT OVERLAYS: SYNCHRONIZED SCROLL-LINKED TEXT DESCRIPTIONS */}
